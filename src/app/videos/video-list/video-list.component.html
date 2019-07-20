@@ -1,0 +1,16 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <div class="row pad-left-right">
+      <span class="pull-left title">Videos</span>
+<a routerLink= "new" class="btn btn-success pull-right" (click)="onNewVideo()">Add Video</a> 
+    </div>
+</div>
+  <div class="panel-body">
+    <div class="center-panel">
+      <app-video-item
+      *ngFor="let video of videos"
+      [video]="video"
+      ></app-video-item>
+      </div>
+  </div>
+</div>

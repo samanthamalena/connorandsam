@@ -1,0 +1,28 @@
+<div class="row">
+  <div class="col-xs-12">
+    </div>
+  
+    <div class="row">
+    <div class="col-xs-12">
+      <h1>{{ video.name }}</h1>
+    </div>
+    </div>
+
+    <div class= "row">
+      <div class= "col-xs-12">
+      <ul class= "nav navbar-nav">
+            <li><a style="cursor: pointer;" (click)= "onView()">View</a></li>
+            <li routerLink=":id/edit"><a style="cursor: pointer;" (click)= "onEditVideo()">Edit</a></li>
+            <li><a style="cursor: pointer;" (click)= "onDelete()">Delete</a></li>
+       </ul>
+          </div>
+
+      </div>
+
+    </div>
+
+        <div class="panel-body contact-details">
+        <p>Description: {{ video.description }}</p>
+        <p>Url: {{video.url}}</p>
+      </div>
+  

@@ -7,4 +7,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'connorandsam';
+
+  onNavigate(feature: string){
+    this.title= feature;
+  }
 }

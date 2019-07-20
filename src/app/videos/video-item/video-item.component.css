@@ -1,0 +1,10 @@
+.videoDiv {
+    width: 12rem;
+    height: 14rem;
+    margin: 2px;
+    font-size: 1.0rem;
+    border: solid thin darkgrey;
+    float: left;
+    padding: .25rem
+  }
+  
