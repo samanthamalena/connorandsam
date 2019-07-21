@@ -59,7 +59,7 @@ app.use(express.static(path.join(__dirname, 'dist/connorandsam')));
 
 // Tell express to map the default route ("/") to the index route
 app.use('/', index);
-app.use('/videos', videosRoutes);
+app.use('/videos', videoRoutes);
 
 // ... ADD YOUR CODE TO MAP YOUR URL'S TO ROUTING FILES HERE ...
 

@@ -43,7 +43,7 @@ onView() {
 
 onDelete() {
   this.videoService.deleteVideo(this.video)
-  this.router.navigate(['/videos'], {relativeTo: this.route});
+  this.router.navigate(['/videos']);
 }
 
 }

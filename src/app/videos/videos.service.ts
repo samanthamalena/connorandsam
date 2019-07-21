@@ -21,30 +21,17 @@ export class VideoService {
     private videos: Video[] = [];
 
     constructor(private http: HttpClient) {
-      //  this.documents = MOCKDOCUMENTS;
         this.maxVideoId = this.getMaxId();
     }
 
-    // storeVideos() {
-    //  //   let json = JSON.stringify(documents);
-    //  //   let header = new HttpHeaders({'Content-Type': 'application/json'});
-    //     this.http.put('https://connorandsam-69.firebaseio.com/videos.json', this.videos)
-    //         .subscribe((response: Response)=> {
-    //             console.log(response);
-    //         });
-    // }
-
 
     getVideos() {
-        this.http.get<{ message: string, videos: Video[]}>('http://localhost:3000/videos')
+        this.http.get<{ message: string, videos: Video[] }>('http://localhost:3000/videos')
             .subscribe(
                 (responseData) => {
                     this.videos = responseData.videos;
                     this.videos.sort((a, b) => a.name > b.name ? 1 : b.name > a.name ? -1 : 0);
                     this.videoChangedEvent.next(this.videos.slice());
-                },
-                (error: any) => {
-                    console.log(error);
                 }
             );
     }
@@ -63,10 +50,15 @@ export class VideoService {
             return;
         }
 
-        this.http.delete('http://localhost:3000/videos' + video.id)
+        const pos = this.videos.findIndex(d => d.id === video.id);
+        if (pos < 0) {
+            return;
+        }
+
+        this.http.delete<{ message: string}>('http://localhost:3000/videos/' + video.id)
             .subscribe(
-                (videos: Video[]) => {
-                    this.videos = videos;
+                (message) => {
+                    this.videos.splice(pos, 1);
                     this.videoChangedEvent.next(this.videos.slice());
                 });
     }
@@ -117,7 +109,7 @@ export class VideoService {
 
         newVideo.id = originalVideo.id;
 
-        this.http.put('http://localhost:3000/videos' + originalVideo.id
+        this.http.put('http://localhost:3000/videos/' + originalVideo.id
                         , newVideo
                         , {headers: headers})
             .subscribe(

@@ -52,11 +52,11 @@ video: Video;
     else {
       this.videoService.addVideo(newVideo);
     }
-    this.router.navigate(['../'], {relativeTo: this.route});
+    this.router.navigate(['/videos']);
   }
 
   onCancel() {
-    this.router.navigate(['../'], {relativeTo: this.route});
+    this.router.navigate(['/videos']);
   }
 
 }

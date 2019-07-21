@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var sequenceGenerator = require('./sequenceGenerator');
 
-const Document = require('../models/video');
+const Video = require('../models/video');
 
 function returnError(res, error) {
     res.status(500).json({
@@ -13,21 +13,21 @@ function returnError(res, error) {
 
 router.get('/', (req, res, next) => {
     Video.find()
-    .populate('group')
-    .then(videos => {
-        res.status(200).json({
-            message: 'Videos fetched successfully',
-            videos: videos
+        .populate('group')
+        .then(videos => {
+            res.status(200).json({
+                message: 'Videos fetched successfully',
+                videos: videos
+            });
+        })
+        .catch(error => {
+            returnError(res, error);
         });
-    })
-    .catch(error => {
-        returnError(res, error);
-    });
 }
 );
 
 router.post('/', (req, res, next) => {
-    const maxVideoId =sequenceGenerator.nextId("videos");
+    const maxVideoId = sequenceGenerator.nextId("videos");
 
     const video = new Video({
         id: maxVideoId,
@@ -49,49 +49,51 @@ router.post('/', (req, res, next) => {
 });
 
 router.put('/:id', (req, res, next) => {
-    Video.findOne({ id: req.param.id })
+    Video.findOne({ id: req.params.id })
         .then(video => {
             video.name = req.body.name;
             video.description = req.body.description;
             video.url = req.body.url;
-            
-        Video.updateOne({ id: req.params.id }, video)
-            .then(result => {
-                res.status(204).json({
-                    message: 'Video updated successfully'})
+
+            Video.updateOne({ id: req.params.id }, video)
+                .then(result => {
+                    res.status(204).json({
+                        message: 'Video updated successfully'
+                    })
                 })
                 .catch(error => {
                     returnError(res, error);
                 });
-            })
+        })
         .catch(error => {
             res.status(500).json({
                 message: 'Video not found.',
-                error: {video: 'Video not found'}
+                error: { video: 'Video not found' }
             });
         });
-    });
+});
 
-    router.delete("/:id", function (req, res, next) {
+router.delete("/:id", function (req, res, next) {
+    Video.findOne({ id: req.params.id })
+        .then(video => {
 
-        video.findOne({ id: req.params.id}) 
-           .then (video => {
-               
-                Video.deleteOne({ id: req.params.id }, video)
+            Video.deleteOne({ id: req.params.id }, video)
                 .then(result => {
                     res.status(204).json({
-                        message: 'Video deleted successfully'})
+                        message: 'Video deleted successfully'
+                    })
                 })
 
                 .catch(error => {
                     returnError(res, error);
                 });
-           })
-           .catch(error => {
-               res.status(500).json({ message: 'Video not found.',
-                error: {video: 'Video not found'}
+        })
+        .catch(error => {
+            res.status(500).json({
+                message: 'Video not found.',
+                error: { video: 'Video not found' }
             });
-           });
-    });
-           
-    module.exports = router;
+        });
+});
+
+module.exports = router;
